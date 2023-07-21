@@ -59,6 +59,7 @@ cat <<EOF > $(pwd)/node/views/index.ejs
 </html>
 EOF
 
+
 cd node
 yum install npm
 npm install mysql express ejs
