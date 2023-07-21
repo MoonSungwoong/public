@@ -3,7 +3,7 @@ rm -rf init-scripts
 mkdir init-scripts
 
 cat <<EOF > $(pwd)/init-scripts/init-user.sql
-CREATE USER 'user'@'%' IDENTIFIED BY 'userpwd';
+CREATE USER 'user'@'%' IDENTIFIED WITH mysql_native_password BY 'userpwd';
 GRANT ALL PRIVILEGES ON *.* TO 'user'@'%' WITH GRANT OPTION;
 CREATE DATABASE Test;
 USE Test;
