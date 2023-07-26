@@ -1,3 +1,9 @@
+if [ -z $1 ] || [ -z $2 ];
+then
+        echo 'nodesvr [DB Server IP] [Fruit Name]'
+        exit
+fi
+
 rm -rf node
 mkdir node
 cat <<EOF > $(pwd)/node/app.js
@@ -8,7 +14,7 @@ const port = 3000; // 원하는 포트 번호로 변경 가능
 
 // MySQL 데이터베이스 연결 설정
 const connection = mysql.createConnection({
-  host: '10.0.0.26', // MySQL 서버 호스트
+  host: '$1', // MySQL 서버 호스트
   user: 'user', // MySQL 사용자 이름
   password: 'userpwd', // MySQL 비밀번호
   database: 'Test', // 사용할 데이터베이스 이름
@@ -19,6 +25,11 @@ connection.connect((err) => {
   if (err) throw err;
   console.log('Connected to MySQL database!');
 });
+
+const dq = "DELETE FROM InfoItem WHERE itemId = 4;"
+const iq = "INSERT INTO InfoItem VALUES (4, '$2');"
+connection.query(dq);
+connection.query(iq);
 
 // 웹페이지 렌더링을 위한 view engine 설정 (ejs 사용)
 app.set('view engine', 'ejs');
@@ -37,7 +48,7 @@ app.get('/', (req, res) => {
 
 // 서버 시작
 app.listen(port, () => {
-  console.log(\`Server is running on http://localhost:${port}\`);
+  console.log(\`Server is running on http://localhost:\${port}\`);
 });
 EOF
 
